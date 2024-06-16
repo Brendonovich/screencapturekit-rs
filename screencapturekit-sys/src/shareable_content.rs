@@ -68,7 +68,10 @@ impl UnsafeSCWindow {
         unsafe { msg_send![self, isOnScreen] }
     }
     pub fn get_is_active(&self) -> BOOL {
-        unsafe { msg_send![self, isActive] }
+        class!(SCWindow)
+            .instance_variable("isActive")
+            .and_then(|_| unsafe { msg_send![self, isActive] })
+            .unwrap_or_default()
     }
 }
 
